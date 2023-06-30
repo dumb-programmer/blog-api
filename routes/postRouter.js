@@ -9,4 +9,7 @@ router.get("/:postId", postController.getPost);
 router.put("/:postId", postController.updatePost);
 router.delete("/:postId", postController.deletePost);
 
+const commentRouter = require("../routes/commentRouter");
+router.use("/:postId/comments", commentRouter);
+
 module.exports = router;
