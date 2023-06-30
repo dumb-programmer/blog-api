@@ -27,8 +27,10 @@ app.use(RateLimit({
 }));
 
 const authRouter = require("./routes/authRouter");
+const postRouter = require("./routes/postRouter");
 
 app.use("/api/auth", authRouter);
+app.use("/api/posts", postRouter);
 
 app.use((req, res, next) => {
     res.status(404).json({ message: "Invalid route" });
