@@ -1,3 +1,4 @@
+const { body, validationResult } = require("express-validator");
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const Post = require("../models/post");
 
@@ -12,22 +13,40 @@ const getPost = async (req, res) => {
     res.json(post);
 };
 
+const validatePost = [
+    body("title").escape().notEmpty().withMessage("Title is required").isLength({ max: 100 }).withMessage("Title must be less than 100 characters"),
+]
+
 const createPost = [
     isAuthenticated,
+    ...validatePost,
     async (req, res) => {
         const { title, body } = req.body;
-        await Post.create({ title, body, author: req.user._id });
-        res.json({ message: "Post created" });
+        const result = validationResult(req);
+        if (result.isEmpty()) {
+            await Post.create({ title, body, author: req.user._id });
+            res.json({ message: "Post created" });
+        }
+        else {
+            res.status(400).json({ errors: result.array() });
+        }
     },
 ]
 
 const updatePost = [
     isAuthenticated,
+    ...validatePost,
     async (req, res) => {
         const { postId } = req.params;
         const { title, body } = req.body;
-        await Post.findByIdAndUpdate(postId, { title, body });
-        res.json({ message: "Post was updated" });
+        const result = validationResult(req);
+        if (result.isEmpty()) {
+            await Post.findByIdAndUpdate(postId, { title, body });
+            res.json({ message: "Post was updated" });
+        }
+        else {
+            res.status(400).json({ errors: result.array() });
+        }
     }
 ]
 
