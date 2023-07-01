@@ -1,6 +1,5 @@
+import { Outlet } from "react-router-dom";
 import Header from "./components/Header";
-import PostDetail from "./components/PostDetail";
-import Posts from "./components/Posts";
 import "./styles/App.css";
 
 const App = () => {
@@ -8,8 +7,7 @@ const App = () => {
     <>
       <Header />
       <main>
-        {/* <Posts /> */}
-        <PostDetail />
+        <Outlet />
       </main>
     </>
   );

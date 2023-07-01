@@ -1,11 +1,11 @@
 import Comment from "./Comment";
 import fetchComments from "../../api/fetchComments";
 import useApi from "../../hooks/useApi";
+import { useParams } from "react-router-dom";
 
 const Comments = () => {
-  const { data, error, loading } = useApi(() =>
-    fetchComments("649e7c02af43828ba1418ce3")
-  );
+  const { postId } = useParams();
+  const { data, error, loading } = useApi(() => fetchComments(postId));
 
   return (
     <div style={{ marginTop: 50 }}>

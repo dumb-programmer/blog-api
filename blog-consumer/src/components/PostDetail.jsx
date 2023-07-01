@@ -1,12 +1,12 @@
+import { useParams } from "react-router-dom";
 import fetchPost from "../../api/fetchPost";
 import useApi from "../../hooks/useApi";
 import CommentForm from "./CommentForm";
 import Comments from "./Comments";
 
 const PostDetail = () => {
-  const { data, error, loading } = useApi(() =>
-    fetchPost("649e7c02af43828ba1418ce3")
-  );
+  const { postId } = useParams();
+  const { data, error, loading } = useApi(() => fetchPost(postId));
 
   return (
     <div className="centered">
