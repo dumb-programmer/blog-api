@@ -6,8 +6,10 @@ const Posts = () => {
   const { loading, data, error } = useApi(() => fetchPosts());
 
   return (
-    <div className="posts">
-      {data && data.map((post, idx) => <Post key={post.id} post={post} />)}
+    <div className="centered">
+      <div className="posts">
+        {data && data.map((post, idx) => <Post key={post._id} post={post} />)}
+      </div>
     </div>
   );
 };

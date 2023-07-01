@@ -5,7 +5,9 @@ const Post = ({ post }) => {
       <a href={`/posts/${_id}`}>
         <h2>{title}</h2>
       </a>
-      <p class="post-meta">1/07/2023</p>
+      <p className="post-meta">
+        {new Intl.DateTimeFormat("en-pk").format(post.createdOn)}
+      </p>
       <p>{body}</p>
     </div>
   );

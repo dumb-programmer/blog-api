@@ -15,7 +15,7 @@ const useApi = (fetchData) => {
         }).finally(() => setLoading(false));
     }, []);
 
-    return { data, loading, error };
+    return { data, setData, loading, error };
 };
 
 export default useApi;
