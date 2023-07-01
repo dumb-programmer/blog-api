@@ -1,39 +1,16 @@
 import Comment from "./Comment";
+import fetchComments from "../../api/fetchComments";
+import useApi from "../../hooks/useApi";
 
 const Comments = () => {
+  const { data, error, loading } = useApi(() =>
+    fetchComments("649e7c02af43828ba1418ce3")
+  );
+
   return (
     <div style={{ marginTop: 50 }}>
-      <div class="comment">
-        {[
-          {
-            name: "Test",
-            comment:
-              "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium nobis culpa alias ex corrupti corporis exercitationem, dolor nemo deleniti quibusdam laborum fugiat reiciendis laboriosam porro perferendis ullam eius cupiditate. Molestias, ratione delectus exercitationem quos animi suscipit dolorem esse minima officia? Doloribus suscipit reprehenderit quidem nihil optio beatae molestiae, aperiam voluptas.",
-          },
-          {
-            name: "Test",
-            comment:
-              "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium nobis culpa alias ex corrupti corporis exercitationem, dolor nemo deleniti quibusdam laborum fugiat reiciendis laboriosam porro perferendis ullam eius cupiditate. Molestias, ratione delectus exercitationem quos animi suscipit dolorem esse minima officia? Doloribus suscipit reprehenderit quidem nihil optio beatae molestiae, aperiam voluptas.",
-          },
-          {
-            name: "Test",
-            comment:
-              "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium nobis culpa alias ex corrupti corporis exercitationem, dolor nemo deleniti quibusdam laborum fugiat reiciendis laboriosam porro perferendis ullam eius cupiditate. Molestias, ratione delectus exercitationem quos animi suscipit dolorem esse minima officia? Doloribus suscipit reprehenderit quidem nihil optio beatae molestiae, aperiam voluptas.",
-          },
-          {
-            name: "Test",
-            comment:
-              "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium nobis culpa alias ex corrupti corporis exercitationem, dolor nemo deleniti quibusdam laborum fugiat reiciendis laboriosam porro perferendis ullam eius cupiditate. Molestias, ratione delectus exercitationem quos animi suscipit dolorem esse minima officia? Doloribus suscipit reprehenderit quidem nihil optio beatae molestiae, aperiam voluptas.",
-          },
-          {
-            name: "Test",
-            comment:
-              "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Laudantium nobis culpa alias ex corrupti corporis exercitationem, dolor nemo deleniti quibusdam laborum fugiat reiciendis laboriosam porro perferendis ullam eius cupiditate. Molestias, ratione delectus exercitationem quos animi suscipit dolorem esse minima officia? Doloribus suscipit reprehenderit quidem nihil optio beatae molestiae, aperiam voluptas.",
-          },
-        ].map((comment, idx) => (
-          <Comment comment={comment} />
-        ))}
-      </div>
+      {data &&
+        data.map((comment, idx) => <Comment key={idx} comment={comment} />)}
     </div>
   );
 };

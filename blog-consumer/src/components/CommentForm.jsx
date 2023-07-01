@@ -5,11 +5,11 @@ const CommentForm = () => {
     <form>
       <h3>Post a comment</h3>
       <div className="form-control">
-        <label for="name">Name:</label>
+        <label htmlFor="name">Name:</label>
         <input id="name" type="text" />
       </div>
       <div className="form-control">
-        <label for="comment">Comment:</label>
+        <label htmlFor="comment">Comment:</label>
         <textarea id="comment"></textarea>
       </div>
       <div className="flex-end">
