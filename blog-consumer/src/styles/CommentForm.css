@@ -1,0 +1,17 @@
+.form-control {
+    min-width: 100%;
+    padding: 10px 0;
+}
+
+.form-control>label {
+    display: block;
+}
+
+.form-control>input, .form-control>textarea {
+    min-width: 100%;
+}
+
+.form-control>textarea {
+    min-height: 100px;
+    resize: none;
+}
