@@ -3,6 +3,7 @@ import fetchComments from "../../api/fetchComments";
 import useApi from "../../hooks/useApi";
 import { useParams } from "react-router-dom";
 import CommentForm from "./CommentForm";
+import CommentSkeleton from "./CommentSkeleton";
 
 const Comments = () => {
   const { postId } = useParams();
@@ -18,6 +19,10 @@ const Comments = () => {
         />
       </div>
       <div style={{ marginTop: 10 }}>
+        {loading &&
+          Array.from({ length: 5 }).map((_, idx) => (
+            <CommentSkeleton key={idx} />
+          ))}
         {data &&
           data.map((comment, idx) => <Comment key={idx} comment={comment} />)}
       </div>

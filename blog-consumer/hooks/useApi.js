@@ -6,13 +6,21 @@ const useApi = (fetchData) => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        let ignore = false;
         fetchData().then(result => {
             result.json().then(result => {
-                setData(result);
+                if (!ignore) {
+                    setData(result);
+                    setLoading(false);
+                }
             });
         }).catch(err => {
             setError(err);
-        }).finally(() => setLoading(false));
+        })
+
+        return () => {
+            ignore = true;
+        }
     }, []);
 
     return { data, setData, loading, error };

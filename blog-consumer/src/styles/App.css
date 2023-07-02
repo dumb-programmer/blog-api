@@ -24,8 +24,9 @@ main {
 .post {
     background-color: #fff;
     padding: 20px;
-    max-width: 500px;
+    max-width: 800px;
     box-shadow: 0px 2px 5px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
 }
 
 a {

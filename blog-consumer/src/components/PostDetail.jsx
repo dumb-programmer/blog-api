@@ -3,6 +3,7 @@ import fetchPost from "../../api/fetchPost";
 import useApi from "../../hooks/useApi";
 import Comments from "./Comments";
 import formatDate from "../../utils/formatDate";
+import PostDetailSkeleton from "./PostDetailSkeleton";
 
 const PostDetail = () => {
   const { postId } = useParams();
@@ -20,9 +21,15 @@ const PostDetail = () => {
           borderRadius: 5,
         }}
       >
-        <h1>{data && data.title}</h1>
-        <p class="post-meta">{data && formatDate(data.createdAt)}</p>
-        <p style={{ marginTop: 20 }}>{data && data.body}</p>
+        {data ? (
+          <>
+            <h1>{data.title}</h1>
+            <p class="post-meta">{formatDate(data.createdAt)}</p>
+            <p style={{ marginTop: 20 }}>{data.body}</p>
+          </>
+        ) : (
+          <PostDetailSkeleton />
+        )}
         <div style={{ marginTop: 40 }}>
           <Comments />
         </div>

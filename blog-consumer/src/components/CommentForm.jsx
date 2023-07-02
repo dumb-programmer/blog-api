@@ -18,7 +18,7 @@ const CommentForm = ({ addComment }) => {
     e.preventDefault();
     if (data.name && data.body) {
       postComment(postId, data);
-      addComment(data);
+      addComment({ ...data, createdAt: new Date() });
       setData({ name: "", body: "" });
     }
   };
