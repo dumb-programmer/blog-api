@@ -9,9 +9,38 @@
 
 .form-control>input, .form-control>textarea {
     min-width: 100%;
+    padding: 5px 10px;
+    border: 1px solid grey;
+    border-radius: 5px;
 }
 
 .form-control>textarea {
     min-height: 100px;
     resize: none;
+}
+
+.form-control>input:focus, .form-control>textarea:focus {
+    outline: 1px solid blueviolet;
+}
+
+.btn {
+    background-color: unset;
+    border: none;
+    border-radius: 20px;
+    padding: 10px;
+    min-width: 100px;
+    transition: transform .1s;
+}
+
+.primary-btn {
+    background-color: blueviolet;
+    color: wheat;
+}
+
+.primary-btn:disabled {
+    background-color: rgb(184, 146, 219);
+}
+
+.btn:disabled {
+    cursor: not-allowed;
 }

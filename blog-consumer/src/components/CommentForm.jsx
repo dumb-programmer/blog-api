@@ -19,6 +19,7 @@ const CommentForm = ({ addComment }) => {
     if (data.name && data.body) {
       postComment(postId, data);
       addComment(data);
+      setData({ name: "", body: "" });
     }
   };
 
@@ -47,7 +48,7 @@ const CommentForm = ({ addComment }) => {
         ></textarea>
       </div>
       <div className="flex-end">
-        <button type="submit" disabled={disabled}>
+        <button className="btn primary-btn" type="submit" disabled={disabled}>
           Comment
         </button>
       </div>

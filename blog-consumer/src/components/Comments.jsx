@@ -10,11 +10,17 @@ const Comments = () => {
 
   return (
     <div style={{ marginTop: 50 }}>
-      <CommentForm
-        addComment={(comment) => setData((comments) => [...comments, comment])}
-      />
-      {data &&
-        data.map((comment, idx) => <Comment key={idx} comment={comment} />)}
+      <div style={{ marginTop: 20 }}>
+        <CommentForm
+          addComment={(comment) =>
+            setData((comments) => [...comments, comment])
+          }
+        />
+      </div>
+      <div style={{ marginTop: 10 }}>
+        {data &&
+          data.map((comment, idx) => <Comment key={idx} comment={comment} />)}
+      </div>
     </div>
   );
 };
