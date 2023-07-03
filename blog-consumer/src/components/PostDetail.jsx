@@ -1,9 +1,10 @@
 import { useParams } from "react-router-dom";
-import fetchPost from "../../api/fetchPost";
-import useApi from "../../hooks/useApi";
+import fetchPost from "../api/fetchPost";
+import useApi from "../hooks/useApi";
 import Comments from "./Comments";
-import formatDate from "../../utils/formatDate";
+import formatDate from "../utils/formatDate";
 import PostDetailSkeleton from "./PostDetailSkeleton";
+import ErrorMessage from "./ErrorMessage";
 
 const PostDetail = () => {
   const { postId } = useParams();
@@ -11,28 +12,21 @@ const PostDetail = () => {
 
   return (
     <div className="centered">
-      <div
-        style={{
-          width: "60vw",
-          minWidth: "min-content",
-          maxWidth: 1000,
-          backgroundColor: "#fff",
-          padding: 20,
-          borderRadius: 5,
-        }}
-      >
-        {data ? (
+      <div className="post-container">
+        {loading && <PostDetailSkeleton />}
+        {error && <ErrorMessage error={error} />}
+        {data && (
           <>
             <h1>{data.title}</h1>
-            <p class="post-meta">{formatDate(data.createdAt)}</p>
+            <p className="meta-data">{formatDate(data.createdAt)}</p>
             <p style={{ marginTop: 20 }}>{data.body}</p>
           </>
-        ) : (
-          <PostDetailSkeleton />
         )}
-        <div style={{ marginTop: 40 }}>
-          <Comments />
-        </div>
+        {!error && (
+          <div style={{ marginTop: 40 }}>
+            <Comments />
+          </div>
+        )}
       </div>
     </div>
   );

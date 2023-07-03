@@ -1,4 +1,4 @@
-import getRelativeTime from "../../utils/getRelativeTime";
+import getRelativeTime from "../utils/getRelativeTime";
 
 const Comment = ({ comment }) => {
   return (

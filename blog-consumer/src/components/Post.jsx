@@ -1,13 +1,14 @@
-import formatDate from "../../utils/formatDate";
+import { Link } from "react-router-dom";
+import formatDate from "../utils/formatDate";
 
 const Post = ({ post }) => {
   const { _id, title, body } = post;
   return (
     <div className="post">
-      <a href={`/posts/${_id}`}>
+      <Link to={`/posts/${_id}`}>
         <h2>{title}</h2>
-      </a>
-      <p className="post-meta">{formatDate(post.createdAt)}</p>
+      </Link>
+      <p className="meta-data">{formatDate(post.createdAt)}</p>
       <p>{body}</p>
     </div>
   );

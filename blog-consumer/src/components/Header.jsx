@@ -4,9 +4,9 @@ import "../styles/Header.css";
 const Header = () => {
   return (
     <header>
-      <Link to="/">
-        <h1>Blog</h1>
-      </Link>
+      <h1>
+        <Link to="/">Blog</Link>
+      </h1>
     </header>
   );
 };
