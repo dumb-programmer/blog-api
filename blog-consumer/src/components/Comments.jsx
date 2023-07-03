@@ -4,6 +4,7 @@ import useApi from "../../hooks/useApi";
 import { useParams } from "react-router-dom";
 import CommentForm from "./CommentForm";
 import CommentSkeleton from "./CommentSkeleton";
+import CommentsEmpty from "./CommentsEmpty";
 
 const Comments = () => {
   const { postId } = useParams();
@@ -25,6 +26,7 @@ const Comments = () => {
           ))}
         {data &&
           data.map((comment, idx) => <Comment key={idx} comment={comment} />)}
+        {data && data.length === 0 && <CommentsEmpty />}
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
-import { useState } from "react";
-import "../styles/CommentForm.css";
-import postComment from "../../api/postComment";
+import { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
+import postComment from "../../api/postComment";
+import "../styles/CommentForm.css";
 
 const CommentForm = ({ addComment }) => {
   const { postId } = useParams();
@@ -14,12 +14,18 @@ const CommentForm = ({ addComment }) => {
     });
   };
 
+  const clearForm = useCallback((e) => {
+    setData({ name: "", body: "" });
+    e.target.name.value = "";
+    e.target.body.value = "";
+  }, []);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     if (data.name && data.body) {
       postComment(postId, data);
       addComment({ ...data, createdAt: new Date() });
-      setData({ name: "", body: "" });
+      clearForm(e);
     }
   };
 

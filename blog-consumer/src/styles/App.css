@@ -34,7 +34,7 @@ a {
     text-decoration: none;
 }
 
-.post-meta {
+.meta-data {
     padding-top: 5px;
     padding-bottom: 10px;
     color: #646464;
@@ -43,4 +43,23 @@ a {
 .flex-end {
     display: flex;
     justify-content: flex-end;
+}
+
+.post-container {
+    width: min(60vw, 1000px);
+    min-width: min-content;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.comment>h4 {
+    display: inline-block;
+}
+
+.comment>h4::after {
+    content: ".";
+    margin: 0px 8px;
+    display: inline-block;
+    transform: translateY(-3px);
 }
