@@ -13,4 +13,11 @@ body {
 
 main {
     flex: 2;
+    padding: 30px 50px;
+}
+
+header {
+    background-color: #fff;
+    padding: 10px;
+    box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.1);
 }
