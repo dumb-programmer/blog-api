@@ -21,3 +21,8 @@ header {
     padding: 10px;
     box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.1);
 }
+
+.flex-end {
+    display: flex;
+    justify-content: flex-end;
+}

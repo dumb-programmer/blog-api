@@ -30,6 +30,8 @@
     padding: 10px;
     min-width: 100px;
     transition: transform .1s;
+    cursor: pointer;
+    transition: background-color .2s;
 }
 
 .primary-btn {
@@ -43,11 +45,6 @@
 
 .btn:disabled {
     cursor: not-allowed;
-}
-
-.flex-end {
-    display: flex;
-    justify-content: flex-end;
 }
 
 .centered {
@@ -65,4 +62,17 @@
 
 .form>h1 {
     padding-bottom: 30px;
+}
+
+.danger-btn {
+    background-color: red;
+    color: white;
+}
+
+.danger-btn:hover {
+    background-color: rgb(253, 81, 81);
+}
+
+.secondary-btn:hover {
+    background-color: rgb(211, 210, 210);
 }
