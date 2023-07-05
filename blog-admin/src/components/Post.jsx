@@ -6,7 +6,7 @@ import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import PublishConfirmationModal from "./PublishConfirmationModal";
 import { useState } from "react";
 
-const Post = () => {
+const Post = ({ post }) => {
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
     useState(false);
   const [showPublishConfirmationModal, setShowPublishConfirmationModal] =
@@ -15,7 +15,7 @@ const Post = () => {
   const navigate = useNavigate();
 
   const handleEdit = () => {
-    navigate(`/posts/faksjdflasjfd/edit`);
+    navigate(`/posts/${post._id}/edit`);
   };
 
   const handleDelete = () => {
@@ -29,10 +29,7 @@ const Post = () => {
   return (
     <>
       <div className="post">
-        <h2>
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Reiciendis
-          aliquam debitis beatae quos! Distinctio exercitationem adipisci illo
-        </h2>
+        <h2>{post.title}</h2>
         <div className="flex-end" style={{ gap: "0.6rem" }}>
           <button
             className="icon-btn"
