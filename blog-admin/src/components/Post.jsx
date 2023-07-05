@@ -1,12 +1,13 @@
 import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import PropType from "prop-types";
 import EyeIcon from "./icons/EyeIcon";
 import PenIcon from "./icons/PenIcon";
 import TrashIcon from "./icons/TrashIcon";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import PublishConfirmationModal from "./PublishConfirmationModal";
-import { useState } from "react";
 
-const Post = ({ post }) => {
+const Post = ({ post, removePost }) => {
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
     useState(false);
   const [showPublishConfirmationModal, setShowPublishConfirmationModal] =
@@ -59,16 +60,24 @@ const Post = ({ post }) => {
       </div>
       {showDeleteConfirmationModal && (
         <DeleteConfirmationModal
+          postId={post._id}
+          removePost={removePost}
           onCancel={() => setShowDeleteConfirmationModal(false)}
         />
       )}
       {showPublishConfirmationModal && (
         <PublishConfirmationModal
+          postId={post._id}
           onCancel={() => setShowPublishConfirmationModal(false)}
         />
       )}
     </>
   );
+};
+
+Post.propTypes = {
+  post: PropType.object.isRequired,
+  removePost: PropType.func.isRequired,
 };
 
 export default Post;

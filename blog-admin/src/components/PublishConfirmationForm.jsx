@@ -1,4 +1,6 @@
-const PublishConfirmationForm = ({ onCancel }) => {
+import PropType from "prop-types";
+
+const PublishConfirmationForm = ({ postId, onCancel }) => {
   return (
     <form
       style={{
@@ -21,6 +23,11 @@ const PublishConfirmationForm = ({ onCancel }) => {
       </div>
     </form>
   );
+};
+
+PublishConfirmationForm.propTypes = {
+  postId: PropType.string.isRequired,
+  onCancel: PropType.func.isRequired,
 };
 
 export default PublishConfirmationForm;

@@ -2,7 +2,7 @@ import { useState } from "react";
 import createPost from "../api/createPost";
 import useAuthContext from "../hooks/useAuthContext";
 
-const PostForm = ({ post, onSubmit = createPost }) => {
+const PostForm = ({ title = "Create Post", post, onSubmit = createPost }) => {
   const [data, setData] = useState(post || { title: "", body: "" });
   const { token } = useAuthContext();
 
@@ -32,7 +32,7 @@ const PostForm = ({ post, onSubmit = createPost }) => {
         style={{ minWidth: "60vw" }}
         onSubmit={handleSubmit}
       >
-        <h2>Create Post</h2>
+        <h2>{title}</h2>
         <div className="form-control">
           <label htmlFor="title">Title</label>
           <input

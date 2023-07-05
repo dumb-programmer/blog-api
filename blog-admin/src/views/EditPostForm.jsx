@@ -11,6 +11,7 @@ const EditPostForm = () => {
   return (
     data && (
       <PostForm
+        title="Edit Post"
         post={data}
         onSubmit={(data, token) => updatePost(postId, data, token)}
       />
