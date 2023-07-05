@@ -30,6 +30,9 @@ const Post = ({ post }) => {
     <>
       <div className="post">
         <h2>{post.title}</h2>
+        <p className="meta-data">
+          {new Intl.DateTimeFormat("en-pk").format(new Date(post.createdAt))}
+        </p>
         <div className="flex-end" style={{ gap: "0.6rem" }}>
           <button
             className="icon-btn"

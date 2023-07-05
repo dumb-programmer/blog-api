@@ -2,8 +2,8 @@ import { useState } from "react";
 import createPost from "../api/createPost";
 import useAuthContext from "../hooks/useAuthContext";
 
-const PostForm = () => {
-  const [data, setData] = useState({ title: "", body: "" });
+const PostForm = ({ post, onSubmit = createPost }) => {
+  const [data, setData] = useState(post || { title: "", body: "" });
   const { token } = useAuthContext();
 
   const handleInput = (e) => {
@@ -16,7 +16,7 @@ const PostForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await createPost(data, token);
+      const response = await onSubmit(data, token);
       if (response === 200) {
         console.log("Post created");
       }
@@ -39,6 +39,7 @@ const PostForm = () => {
             id="title"
             name="title"
             type="text"
+            value={data.title}
             onChange={handleInput}
             required
           />
@@ -48,6 +49,7 @@ const PostForm = () => {
           <textarea
             id="body"
             name="body"
+            value={data.body}
             style={{ minHeight: 200 }}
             onChange={handleInput}
           ></textarea>

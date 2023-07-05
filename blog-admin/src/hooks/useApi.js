@@ -21,7 +21,7 @@ const useApi = (fetchData) => {
         return () => {
             ignore = true;
         }
-    }, [fetchData]);
+    }, []);
 
     return { data, loading, error };
 };
