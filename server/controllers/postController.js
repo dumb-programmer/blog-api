@@ -3,18 +3,27 @@ const isAuthenticated = require("../middlewares/isAuthenticated");
 const Post = require("../models/post");
 
 const getPosts = async (req, res) => {
-    const posts = await Post.find();
+    const { fields } = req.query;
+    const projection = fields && fields.split(",").map(field => ({ [field]: 1 })).reduce((prevVal, currentVal) => {
+        return ({ ...prevVal, ...currentVal });
+    }, {}) || null;
+    const posts = await Post.find(null, projection).sort({ createdAt: -1 });
     res.json(posts);
 };
 
 const getPost = async (req, res) => {
     const { postId } = req.params;
     const post = await Post.findById(postId);
-    res.json(post);
+    if (post) {
+        res.json(post);
+    }
+    else {
+        res.status(404).json({ message: "Post not found" });
+    }
 };
 
 const validatePost = [
-    body("title").escape().notEmpty().withMessage("Title is required").isLength({ max: 100 }).withMessage("Title must be less than 100 characters"),
+    body("title").escape().notEmpty().withMessage("Title is required").isLength({ max: 100 }).withMessage("Title cannot be greater than 100 characters"),
 ]
 
 const createPost = [
