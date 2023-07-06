@@ -19,7 +19,7 @@
     resize: none;
 }
 
-.form-control>input:focus, .form-control>textarea:focus {
+input:focus, .form-control>textarea:focus {
     outline: 1px solid blueviolet;
 }
 
@@ -29,6 +29,10 @@
     border-radius: 20px;
     padding: 10px;
     min-width: 100px;
+    max-height: 37px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     transition: transform .1s;
     cursor: pointer;
     transition: background-color .2s;
@@ -75,4 +79,47 @@
 
 .secondary-btn:hover {
     background-color: rgb(211, 210, 210);
+}
+
+.toggle {
+    align-items: center;
+    appearance: none;
+    min-width: 50px;
+    min-height: 20px;
+    border: 1px solid grey;
+    border-radius: 13px;
+    cursor: pointer;
+}
+
+.toggle, .toggle::after {
+    transition: background-color, transform .25s;
+}
+
+.toggle:checked {
+    background-color: blueviolet;
+}
+
+.toggle::after {
+    content: "";
+    display: block;
+    margin: 3px;
+    height: 15px;
+    width: 15px;
+    border-radius: 50%;
+    background-color: blueviolet;
+}
+
+.toggle:checked::after {
+    background-color: #fff;
+    transform: translateX(26px);
+}
+
+.error-message {
+    font-size: 0.7rem;
+    display: block;
+    color: red;
+}
+
+.input__invalid {
+    border: 1px solid red !important;
 }
