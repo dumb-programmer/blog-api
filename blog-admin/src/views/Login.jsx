@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import login from "../api/login";
 import useAuthContext from "../hooks/useAuthContext";
@@ -10,6 +10,7 @@ const Login = () => {
   const [errors, setErrors] = useState(null);
   const [loading, setLoading] = useState(false);
   const { setUser, setToken } = useAuthContext();
+  const location = useLocation();
   const navigate = useNavigate();
 
   const handleInput = (e) => {
@@ -29,10 +30,10 @@ const Login = () => {
       if (response.status === 200) {
         const { token, user } = await response.json();
         localStorage.setItem("token", token);
-        localStorage.setItem("user", user);
+        localStorage.setItem("user", JSON.stringify(user));
         setUser(user);
         setToken(token);
-        navigate("/");
+        navigate(location.state?.from?.pathname || "/");
       } else if (response.status === 404) {
         setErrors({
           email: "No user with this email exists",
