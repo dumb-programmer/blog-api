@@ -1,10 +1,16 @@
 import { useState } from "react";
 import PropType from "prop-types";
-import deletePost from "../api/deletePost";
 import useAuthContext from "../hooks/useAuthContext";
 import "../styles/Form.css";
 
-const DeleteConfirmationForm = ({ postId, removePost, onCancel }) => {
+const DeleteConfirmationForm = ({
+  title,
+  message,
+  contentId,
+  removeContent,
+  onSubmit,
+  onCancel,
+}) => {
   const [loading, setLoading] = useState(false);
   const { token } = useAuthContext();
 
@@ -12,10 +18,10 @@ const DeleteConfirmationForm = ({ postId, removePost, onCancel }) => {
     e.preventDefault();
     try {
       setLoading(true);
-      const response = await deletePost(postId, token);
+      const response = await onSubmit(contentId, token);
       if (response.status === 200) {
         onCancel();
-        removePost(postId);
+        removeContent(contentId);
       }
     } catch (error) {
       console.error("There was an error");
@@ -25,7 +31,7 @@ const DeleteConfirmationForm = ({ postId, removePost, onCancel }) => {
 
   return (
     <form
-      onSubmit={handleSubmit}
+      onSubmit={loading ? null : handleSubmit}
       style={{
         display: "flex",
         flexDirection: "column",
@@ -34,11 +40,8 @@ const DeleteConfirmationForm = ({ postId, removePost, onCancel }) => {
         maxWidth: 400,
       }}
     >
-      <h2>Delete Post</h2>
-      <p>
-        Are you sure you want to delete this post? This action is
-        non-recoverable
-      </p>
+      <h2>{title}</h2>
+      <p>{message}</p>
       <div className="btns-container flex-end" style={{ gap: "0.6rem" }}>
         <button
           className="btn secondary-btn"
@@ -56,8 +59,11 @@ const DeleteConfirmationForm = ({ postId, removePost, onCancel }) => {
 };
 
 DeleteConfirmationForm.propTypes = {
-  postId: PropType.string.isRequired,
-  removePost: PropType.func.isRequired,
+  title: PropType.string.isRequired,
+  message: PropType.string.isRequired,
+  contentId: PropType.string.isRequired,
+  removeContent: PropType.func.isRequired,
+  onSubmit: PropType.func.isRequired,
   onCancel: PropType.func.isRequired,
 };
 

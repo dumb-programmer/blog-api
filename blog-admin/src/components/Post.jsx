@@ -6,6 +6,8 @@ import PenIcon from "./icons/PenIcon";
 import TrashIcon from "./icons/TrashIcon";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
 import PublishConfirmationModal from "./PublishConfirmationModal";
+import CommentIcon from "./icons/CommentIcon";
+import deletePost from "../api/deletePost";
 
 const Post = ({ post, removePost }) => {
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
@@ -27,6 +29,10 @@ const Post = ({ post, removePost }) => {
     setShowPublishConfirmationModal(true);
   };
 
+  const handleComments = () => {
+    navigate(`/posts/${post._id}/comments`);
+  };
+
   return (
     <>
       <div className="post">
@@ -34,7 +40,7 @@ const Post = ({ post, removePost }) => {
         <p className="meta-data">
           {new Intl.DateTimeFormat("en-pk").format(new Date(post.createdAt))}
         </p>
-        <div className="flex-end" style={{ gap: "0.6rem" }}>
+        <div className="flex-end post-action-btns">
           <button
             className="icon-btn"
             aria-label="edit post"
@@ -56,12 +62,22 @@ const Post = ({ post, removePost }) => {
           >
             <EyeIcon size={20} color="grey" />
           </button>
+          <button
+            className="icon-btn"
+            aria-label="publish post"
+            onClick={handleComments}
+          >
+            <CommentIcon size={20} color="grey" />
+          </button>
         </div>
       </div>
       {showDeleteConfirmationModal && (
         <DeleteConfirmationModal
-          postId={post._id}
-          removePost={removePost}
+          title="Delete Post"
+          message="Are you sure you want to delete this post? This action is non-recoverable"
+          contentId={post._id}
+          removeContent={removePost}
+          onSubmit={deletePost}
           onCancel={() => setShowDeleteConfirmationModal(false)}
         />
       )}

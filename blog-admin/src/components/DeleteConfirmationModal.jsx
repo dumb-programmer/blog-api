@@ -2,12 +2,22 @@ import PropType from "prop-types";
 import DeleteConfirmationForm from "./DeleteConfirmationForm";
 import Modal from "./Modal";
 
-const DeleteConfirmationModal = ({ postId, removePost, onCancel }) => {
+const DeleteConfirmationModal = ({
+  title,
+  message,
+  contentId,
+  removeContent,
+  onSubmit,
+  onCancel,
+}) => {
   return (
     <Modal>
       <DeleteConfirmationForm
-        postId={postId}
-        removePost={removePost}
+        title={title}
+        message={message}
+        contentId={contentId}
+        removeContent={removeContent}
+        onSubmit={onSubmit}
         onCancel={onCancel}
       />
     </Modal>
@@ -15,8 +25,11 @@ const DeleteConfirmationModal = ({ postId, removePost, onCancel }) => {
 };
 
 DeleteConfirmationModal.propTypes = {
-  postId: PropType.string.isRequired,
-  removePost: PropType.func.isRequired,
+  title: PropType.string.isRequired,
+  message: PropType.string.isRequired,
+  contentId: PropType.string.isRequired,
+  removeContent: PropType.func.isRequired,
+  onSubmit: PropType.func.isRequired,
   onCancel: PropType.func.isRequired,
 };
 
