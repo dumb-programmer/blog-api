@@ -13,7 +13,11 @@ const getPosts = async (req, res) => {
 
 const getPost = async (req, res) => {
     const { postId } = req.params;
-    const post = await Post.findById(postId);
+    const { fields } = req.query;
+    const projection = fields && fields.split(",").map(field => ({ [field]: 1 })).reduce((prevVal, currentVal) => {
+        return ({ ...prevVal, ...currentVal });
+    }, {}) || null;
+    const post = await Post.findById(postId, projection);
     if (post) {
         res.json(post);
     }
@@ -30,34 +34,52 @@ const createPost = [
     isAuthenticated,
     ...validatePost,
     async (req, res) => {
-        const { title, body } = req.body;
+        const { title, body, publish } = req.body;
         const result = validationResult(req);
         if (result.isEmpty()) {
-            await Post.create({ title, body, author: req.user._id });
+            await Post.create({ title, body, author: req.user._id, isPublished: publish === "on" });
             res.json({ message: "Post created" });
         }
         else {
             res.status(400).json({ errors: result.array() });
         }
     },
-]
+];
 
 const updatePost = [
     isAuthenticated,
     ...validatePost,
     async (req, res) => {
         const { postId } = req.params;
-        const { title, body } = req.body;
+        const { title, body, publish } = req.body;
         const result = validationResult(req);
         if (result.isEmpty()) {
-            await Post.findByIdAndUpdate(postId, { title, body });
+            await Post.findByIdAndUpdate(postId, { title, body, isPublished: publish === "on" });
             res.json({ message: "Post was updated" });
         }
         else {
             res.status(400).json({ errors: result.array() });
         }
     }
-]
+];
+
+const publishPost = [
+    isAuthenticated,
+    async (req, res) => {
+        const { postId } = req.params;
+        await Post.findByIdAndUpdate(postId, { isPublished: true });
+        res.json({ message: "Post published" });
+    }
+];
+
+const unpublishPost = [
+    isAuthenticated,
+    async (req, res) => {
+        const { postId } = req.params;
+        await Post.findByIdAndUpdate(postId, { isPublished: false });
+        res.json({ message: "Post unpublished" });
+    }
+];
 
 const deletePost = [
     isAuthenticated,
@@ -66,6 +88,6 @@ const deletePost = [
         await Post.findByIdAndDelete(postId);
         res.json({ message: "Post was deleted" });
     }
-]
+];
 
-module.exports = { getPosts, getPost, createPost, updatePost, deletePost };
+module.exports = { getPosts, getPost, createPost, updatePost, publishPost, unpublishPost, deletePost };

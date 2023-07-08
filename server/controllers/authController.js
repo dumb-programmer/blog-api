@@ -2,6 +2,7 @@ const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const User = require("../models/user");
+const { body, validationResult } = require("express-validator");
 
 const createUser = async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
@@ -15,27 +16,41 @@ const createUser = async (req, res) => {
     });
 };
 
-const login = async (req, res) => {
-    const { email, password } = req.body;
-    const user = await User.findOne({ email });
-    if (user) {
-        bcryptjs.compare(password, user.password, (err, isEqual) => {
-            if (err) {
-                return res.sendStatus(500);
-            }
-            else if (isEqual) {
-                const token = jwt.sign({ id: user._id }, process.env.SECRET);
-                res.json({ token });
+const validateUser = [
+    body("email").notEmpty().withMessage("Email is required").isEmail().withMessage("Email doesn't conform to its format"),
+    body("password").notEmpty().withMessage("Password is required"),
+]
+
+const login = [
+    ...validateUser,
+    async (req, res) => {
+        const result = validationResult(req);
+        if (result.isEmpty()) {
+            const { email, password } = req.body;
+            const user = await User.findOne({ email });
+            if (user) {
+                bcryptjs.compare(password, user.password, (err, isEqual) => {
+                    if (err) {
+                        return res.sendStatus(500);
+                    }
+                    else if (isEqual) {
+                        const token = jwt.sign({ id: user._id }, process.env.SECRET);
+                        res.json({ token, user: { firstName: user.firstName, lastName: user.lastName, email: user.email } });
+                    }
+                    else {
+                        res.status(401).json({ message: "Incorrect password" });
+                    }
+                })
             }
             else {
-                res.status(401).json({ message: "Incorrect password" });
+                res.status(404).json({ message: "No such user exists" });
             }
-        })
+        }
+        else {
+            res.status(403).json({ errors: result.array()[0] });
+        }
     }
-    else {
-        res.status(401).json({ message: "No such user exists" });
-    }
-};
+]
 
 const logout = (req, res) => {
 
