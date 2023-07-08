@@ -8,6 +8,7 @@ const useApi = (fetchData) => {
     useEffect(() => {
         let ignore = false;
         fetchData().then(response => {
+            setLoading(true);
             if (response.status === 200) {
                 response.json().then(jsonResponse => {
                     if (!ignore) {

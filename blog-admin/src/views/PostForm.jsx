@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropType from "prop-types";
 import createPost from "../api/createPost";
 import useAuthContext from "../hooks/useAuthContext";
 import Loader from "../components/Loader";
+import RichTextEditor from "../components/RichTextEditor";
 
 const PostForm = ({ title = "Create Post", post, onSubmit = createPost }) => {
   const [data, setData] = useState(post || { title: "", body: "" });
@@ -17,6 +18,8 @@ const PostForm = ({ title = "Create Post", post, onSubmit = createPost }) => {
       [e.target.name]: e.target.value,
     });
   };
+
+  console.log(data);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,13 +57,10 @@ const PostForm = ({ title = "Create Post", post, onSubmit = createPost }) => {
         </div>
         <div className="form-control">
           <label htmlFor="body">Post</label>
-          <textarea
-            id="body"
-            name="body"
+          <RichTextEditor
+            onChange={(value) => setData({ ...data, body: value })}
             value={data.body}
-            style={{ minHeight: 200 }}
-            onChange={handleInput}
-          ></textarea>
+          />
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "0.8rem" }}>
           <label htmlFor="publish">Publish</label>

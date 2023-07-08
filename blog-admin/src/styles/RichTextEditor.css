@@ -1,0 +1,54 @@
+.quill {
+    font-family: "Red Hat Display" !important;
+}
+
+.quill:focus-within {
+    outline: 1px solid blueviolet;
+    border-radius: 5px;
+}
+
+.ql-editor {
+    min-height: 200px;
+    font-family: "Red Hat Display";
+}
+
+.ql-toolbar {
+    border: 1px solid grey !important;
+    border-radius: 5px;
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+.ql-container {
+    border: 1px solid grey !important;
+    border-top: 0px !important;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+    max-width: 100%;
+}
+
+.ql-toolbar button:hover .ql-stroke,
+.ql-toolbar button:hover,
+.ql-toolbar .ql-picker-item:hover,
+.ql-picker-label:hover,
+.ql-picker-label:hover .ql-stroke,
+.ql-picker-label:hover .ql-active,
+.ql-active,
+.ql-selected,
+.ql-active .ql-stroke,
+.ql-action {
+    stroke: blueviolet !important;
+    color: blueviolet !important;
+}
+
+.ql-picker-label:focus-visible,
+.ql-toolbar button:focus-visible,
+.ql-picker-item:focus-visible {
+    outline: 2px solid blueviolet;
+    box-shadow: 1px 1px 1px 1px blueviolet;
+}
+
+.ql-toolbar button:focus-visible .ql-stroke, .ql-toolbar button:focus-visible {
+    stroke: blueviolet !important;
+    color: blueviolet;
+}
