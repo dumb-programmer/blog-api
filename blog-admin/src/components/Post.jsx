@@ -2,18 +2,21 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import PropType from "prop-types";
 import EyeIcon from "./icons/EyeIcon";
+import CrossEyeIcon from "./icons/CrossEyeIcon";
 import PenIcon from "./icons/PenIcon";
 import TrashIcon from "./icons/TrashIcon";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
-import PublishConfirmationModal from "./PublishConfirmationModal";
+import ChangePublishStatusConfirmationModal from "./ChangePublishStatusConfirmationModal";
 import CommentIcon from "./icons/CommentIcon";
 import deletePost from "../api/deletePost";
 
-const Post = ({ post, removePost }) => {
+const Post = ({ post, updatePostPublishStatus, removePost }) => {
   const [showDeleteConfirmationModal, setShowDeleteConfirmationModal] =
     useState(false);
-  const [showPublishConfirmationModal, setShowPublishConfirmationModal] =
-    useState(false);
+  const [
+    showChangePublishStatusConfirmationModal,
+    setShowChangePublishStatusConfirmationModal,
+  ] = useState(false);
 
   const navigate = useNavigate();
 
@@ -26,7 +29,7 @@ const Post = ({ post, removePost }) => {
   };
 
   const handlePublish = () => {
-    setShowPublishConfirmationModal(true);
+    setShowChangePublishStatusConfirmationModal(true);
   };
 
   const handleComments = () => {
@@ -57,10 +60,14 @@ const Post = ({ post, removePost }) => {
           </button>
           <button
             className="icon-btn"
-            aria-label="publish post"
+            aria-label={`${post.isPublished ? "unpublish" : "publish"} post`}
             onClick={handlePublish}
           >
-            <EyeIcon size={20} color="grey" />
+            {post.isPublished ? (
+              <CrossEyeIcon size={20} color="grey" />
+            ) : (
+              <EyeIcon size={20} color="grey" />
+            )}
           </button>
           <button
             className="icon-btn"
@@ -81,10 +88,12 @@ const Post = ({ post, removePost }) => {
           onCancel={() => setShowDeleteConfirmationModal(false)}
         />
       )}
-      {showPublishConfirmationModal && (
-        <PublishConfirmationModal
+      {showChangePublishStatusConfirmationModal && (
+        <ChangePublishStatusConfirmationModal
           postId={post._id}
-          onCancel={() => setShowPublishConfirmationModal(false)}
+          isPublished={post.isPublished}
+          updatePostPublishStatus={updatePostPublishStatus}
+          onCancel={() => setShowChangePublishStatusConfirmationModal(false)}
         />
       )}
     </>
@@ -93,6 +102,7 @@ const Post = ({ post, removePost }) => {
 
 Post.propTypes = {
   post: PropType.object.isRequired,
+  updatePostPublishStatus: PropType.func.isRequired,
   removePost: PropType.func.isRequired,
 };
 

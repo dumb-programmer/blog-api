@@ -1,5 +1,5 @@
 const getPosts = () => {
-    return fetch(`${import.meta.env.VITE_API_URL}/posts?fields=title,createdAt`, {
+    return fetch(`${import.meta.env.VITE_API_URL}/posts?fields=title,createdAt,isPublished`, {
         mode: "cors"
     });
 };

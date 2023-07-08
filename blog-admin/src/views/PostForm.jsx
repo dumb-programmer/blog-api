@@ -1,4 +1,4 @@
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PropType from "prop-types";
 import createPost from "../api/createPost";
@@ -7,7 +7,11 @@ import Loader from "../components/Loader";
 import RichTextEditor from "../components/RichTextEditor";
 
 const PostForm = ({ title = "Create Post", post, onSubmit = createPost }) => {
-  const [data, setData] = useState(post || { title: "", body: "" });
+  const [data, setData] = useState({
+    title: post?.title || "",
+    body: post?.body || "",
+    publish: post?.isPublished || false,
+  });
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const { token } = useAuthContext();
@@ -18,8 +22,6 @@ const PostForm = ({ title = "Create Post", post, onSubmit = createPost }) => {
       [e.target.name]: e.target.value,
     });
   };
-
-  console.log(data);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -69,7 +71,13 @@ const PostForm = ({ title = "Create Post", post, onSubmit = createPost }) => {
             name="publish"
             className="toggle"
             type="checkbox"
-            onChange={handleInput}
+            onChange={() =>
+              setData({
+                ...data,
+                publish: !data.publish ? "on" : "off",
+              })
+            }
+            defaultChecked={data?.publish}
           />
         </div>
         <div className="form-control">
