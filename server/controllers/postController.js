@@ -2,30 +2,38 @@ const { body, validationResult } = require("express-validator");
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const Post = require("../models/post");
 const asyncHandler = require("../middlewares/asyncHandler");
+const verifyToken = require("../middlewares/verifyToken");
 
-const getPosts = asyncHandler(async (req, res) => {
-    const { fields } = req.query;
-    const projection = fields && fields.split(",").map(field => ({ [field]: 1 })).reduce((prevVal, currentVal) => {
-        return ({ ...prevVal, ...currentVal });
-    }, {}) || null;
-    const posts = await Post.find(null, projection).sort({ createdAt: -1 });
-    res.json(posts);
-});
+const getPosts = [
+    asyncHandler(verifyToken),
+    asyncHandler(async (req, res) => {
+        const { fields } = req.query;
+        const projection = fields && fields.split(",").map(field => ({ [field]: 1 })).reduce((prevVal, currentVal) => {
+            return ({ ...prevVal, ...currentVal });
+        }, {}) || null;
+        const find = !req.user && { isPublished: true } || null;
+        const posts = await Post.find(find, projection).sort({ createdAt: -1 });
+        res.json(posts);
+    })
+];
 
-const getPost = asyncHandler(async (req, res) => {
-    const { postId } = req.params;
-    const { fields } = req.query;
-    const projection = fields && fields.split(",").map(field => ({ [field]: 1 })).reduce((prevVal, currentVal) => {
-        return ({ ...prevVal, ...currentVal });
-    }, {}) || null;
-    const post = await Post.findById(postId, projection);
-    if (post) {
-        res.json(post);
-    }
-    else {
-        res.status(404).json({ message: "Post not found" });
-    }
-});
+const getPost = [
+    asyncHandler(verifyToken),
+    asyncHandler(async (req, res) => {
+        const { postId } = req.params;
+        const { fields } = req.query;
+        const projection = fields && fields.split(",").map(field => ({ [field]: 1 })).reduce((prevVal, currentVal) => {
+            return ({ ...prevVal, ...currentVal });
+        }, {}) || null;
+        const post = await Post.findById(postId, projection);
+        if (post && post.isPublished || req.user) {
+            res.json(post);
+        }
+        else {
+            res.status(404).json({ message: "Post not found" });
+        }
+    })
+];
 
 const validatePost = [
     body("title").escape().notEmpty().withMessage("Title is required").isLength({ max: 100 }).withMessage("Title cannot be greater than 100 characters"),
