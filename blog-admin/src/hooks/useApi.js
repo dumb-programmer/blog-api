@@ -15,7 +15,22 @@ const useApi = (fetchData) => {
                         setData(jsonResponse);
                         setLoading(false);
                     }
-                }).catch(err => setError(err));
+                }).catch(err => {
+                    setError(err);
+                    setLoading(false);
+                });
+            }
+            else if (response.status === 404) {
+                setError({ status: 404, message: "Resource not found" });
+                setLoading(false);
+            }
+            else if (response.status === 429) {
+                setError({ status: 429, message: "Too many requests" });
+                setLoading(false);
+            }
+            else {
+                setError({ status: 500, message: "An unkown error has occurred" });
+                setLoading(false);
             }
         })
 

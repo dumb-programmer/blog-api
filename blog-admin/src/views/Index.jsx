@@ -7,6 +7,7 @@ import useApi from "../hooks/useApi";
 import "../styles/Index.css";
 import useAuthContext from "../hooks/useAuthContext";
 import PostSkeleton from "../components/PostSkeleton";
+import ErrorPage from "./ErrorPage";
 
 const Index = () => {
   const { token } = useAuthContext();
@@ -15,6 +16,7 @@ const Index = () => {
   return (
     <div className="centered">
       <div className="posts">
+        {error && <ErrorPage error={error} />}
         {loading &&
           Array.from({ length: 5 }).map((_, idx) => <PostSkeleton key={idx} />)}
         {data &&

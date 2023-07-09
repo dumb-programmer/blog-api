@@ -5,6 +5,7 @@ import PostForm from "./PostForm";
 import updatePost from "../api/updatePost";
 import useAuthContext from "../hooks/useAuthContext";
 import PostFormSkeleton from "../components/PostFormSkeleton";
+import ErrorPage from "./ErrorPage";
 
 const EditPostForm = () => {
   const { postId } = useParams();
@@ -13,6 +14,7 @@ const EditPostForm = () => {
 
   return (
     <>
+      {error && <ErrorPage error={error} />}
       {loading && <PostFormSkeleton />}
       {data && (
         <PostForm
