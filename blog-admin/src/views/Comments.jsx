@@ -3,6 +3,7 @@ import Comment from "../components/Comment";
 import useApi from "../hooks/useApi";
 import getComments from "../api/getComments";
 import EmptyComments from "../components/EmptyComments";
+import CommentSkeleton from "../components/CommentSkeleton";
 
 const Comments = () => {
   const { postId } = useParams();
@@ -11,6 +12,10 @@ const Comments = () => {
     <div className="centered">
       <div className="content">
         <h2>Comments</h2>
+        {loading &&
+          Array.from({ length: 5 }).map((_, idx) => (
+            <CommentSkeleton key={idx} />
+          ))}
         {data &&
           data.map((comment) => (
             <Comment

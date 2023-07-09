@@ -3,19 +3,25 @@ import useApi from "../hooks/useApi";
 import getPost from "../api/getPost";
 import PostForm from "./PostForm";
 import updatePost from "../api/updatePost";
+import useAuthContext from "../hooks/useAuthContext";
+import PostFormSkeleton from "../components/PostFormSkeleton";
 
 const EditPostForm = () => {
   const { postId } = useParams();
-  const { data, loading, error } = useApi(() => getPost(postId));
+  const { token } = useAuthContext();
+  const { data, loading, error } = useApi(() => getPost(postId, token));
 
   return (
-    data && (
-      <PostForm
-        title="Edit Post"
-        post={data}
-        onSubmit={(data, token) => updatePost(postId, data, token)}
-      />
-    )
+    <>
+      {loading && <PostFormSkeleton />}
+      {data && (
+        <PostForm
+          title="Edit Post"
+          post={data}
+          onSubmit={(data, token) => updatePost(postId, data, token)}
+        />
+      )}
+    </>
   );
 };
 

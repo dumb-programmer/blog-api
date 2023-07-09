@@ -5,13 +5,18 @@ import CreatePostButton from "../components/CreatePostButton";
 import Post from "../components/Post";
 import useApi from "../hooks/useApi";
 import "../styles/Index.css";
+import useAuthContext from "../hooks/useAuthContext";
+import PostSkeleton from "../components/PostSkeleton";
 
 const Index = () => {
-  const { data, setData, loading, error } = useApi(() => getPosts());
-  console.log(data);
+  const { token } = useAuthContext();
+  const { data, setData, loading, error } = useApi(() => getPosts(token));
+
   return (
     <div className="centered">
       <div className="posts">
+        {loading &&
+          Array.from({ length: 5 }).map((_, idx) => <PostSkeleton key={idx} />)}
         {data &&
           data.map((post) => (
             <Post

@@ -29,7 +29,6 @@ const PostForm = ({ title = "Create Post", post, onSubmit = createPost }) => {
     try {
       const response = await onSubmit(data, token);
       if (response.status === 200) {
-        console.log("Post created");
         navigate("/");
       }
     } catch (error) {
@@ -40,11 +39,7 @@ const PostForm = ({ title = "Create Post", post, onSubmit = createPost }) => {
 
   return (
     <div className="centered">
-      <form
-        className="form"
-        style={{ minWidth: "60vw" }}
-        onSubmit={loading ? null : handleSubmit}
-      >
+      <form className="form" onSubmit={loading ? null : handleSubmit}>
         <h2>{title}</h2>
         <div className="form-control">
           <label htmlFor="title">Title</label>
