@@ -1,12 +1,13 @@
 const { body, validationResult } = require("express-validator");
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const Comment = require("../models/comment");
+const asyncHandler = require("../middlewares/asyncHandler");
 
-const getComments = async (req, res) => {
+const getComments = asyncHandler(async (req, res) => {
     const { postId } = req.params;
     const comments = await Comment.find({ post: postId });
     res.json(comments);
-};
+});
 
 const validateComment = [
     body("name").escape().notEmpty().withMessage("Name is required").isLength({ max: 50 }).withMessage("Name cannot be greater than 50 characters"),
@@ -15,7 +16,7 @@ const validateComment = [
 
 const createComment = [
     ...validateComment,
-    async (req, res) => {
+    asyncHandler(async (req, res) => {
         const { postId } = req.params;
         const { name, body } = req.body;
         const result = validationResult(req);
@@ -26,16 +27,16 @@ const createComment = [
         else {
             res.status(400).json({ errors: result.array() });
         }
-    }
+    })
 ]
 
 const deleteComment = [
     isAuthenticated,
-    async (req, res) => {
+    asyncHandler(async (req, res) => {
         const { commentId } = req.params;
         await Comment.findByIdAndDelete(commentId);
         res.json({ message: "Comment was deleted" });
-    }
+    })
 ]
 
 module.exports = { getComments, createComment, deleteComment };

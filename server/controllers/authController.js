@@ -1,10 +1,10 @@
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-
-const User = require("../models/user");
 const { body, validationResult } = require("express-validator");
+const User = require("../models/user");
+const asyncHandler = require("../middlewares/asyncHandler");
 
-const createUser = async (req, res) => {
+const createUser = asyncHandler(async (req, res) => {
     const { firstName, lastName, email, password } = req.body;
     const salt = await bcryptjs.genSalt(12);
     bcryptjs.hash(password, salt, async (err, passwordHash) => {
@@ -14,7 +14,7 @@ const createUser = async (req, res) => {
         await User.create({ firstName, lastName, email, password: passwordHash });
         res.json({ message: "User created" });
     });
-};
+});
 
 const validateUser = [
     body("email").notEmpty().withMessage("Email is required").isEmail().withMessage("Email doesn't conform to its format"),
@@ -23,7 +23,7 @@ const validateUser = [
 
 const login = [
     ...validateUser,
-    async (req, res) => {
+    asyncHandler(async (req, res) => {
         const result = validationResult(req);
         if (result.isEmpty()) {
             const { email, password } = req.body;
@@ -49,11 +49,7 @@ const login = [
         else {
             res.status(403).json({ errors: result.array()[0] });
         }
-    }
+    })
 ]
 
-const logout = (req, res) => {
-
-};
-
-module.exports = { createUser, login, logout };
+module.exports = { createUser, login };

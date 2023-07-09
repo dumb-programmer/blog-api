@@ -1,17 +1,18 @@
 const { body, validationResult } = require("express-validator");
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const Post = require("../models/post");
+const asyncHandler = require("../middlewares/asyncHandler");
 
-const getPosts = async (req, res) => {
+const getPosts = asyncHandler(async (req, res) => {
     const { fields } = req.query;
     const projection = fields && fields.split(",").map(field => ({ [field]: 1 })).reduce((prevVal, currentVal) => {
         return ({ ...prevVal, ...currentVal });
     }, {}) || null;
     const posts = await Post.find(null, projection).sort({ createdAt: -1 });
     res.json(posts);
-};
+});
 
-const getPost = async (req, res) => {
+const getPost = asyncHandler(async (req, res) => {
     const { postId } = req.params;
     const { fields } = req.query;
     const projection = fields && fields.split(",").map(field => ({ [field]: 1 })).reduce((prevVal, currentVal) => {
@@ -24,7 +25,7 @@ const getPost = async (req, res) => {
     else {
         res.status(404).json({ message: "Post not found" });
     }
-};
+});
 
 const validatePost = [
     body("title").escape().notEmpty().withMessage("Title is required").isLength({ max: 100 }).withMessage("Title cannot be greater than 100 characters"),
@@ -33,7 +34,7 @@ const validatePost = [
 const createPost = [
     isAuthenticated,
     ...validatePost,
-    async (req, res) => {
+    asyncHandler(async (req, res) => {
         const { title, body, publish } = req.body;
         const result = validationResult(req);
         if (result.isEmpty()) {
@@ -43,13 +44,13 @@ const createPost = [
         else {
             res.status(400).json({ errors: result.array() });
         }
-    },
+    })
 ];
 
 const updatePost = [
     isAuthenticated,
     ...validatePost,
-    async (req, res) => {
+    asyncHandler(async (req, res) => {
         const { postId } = req.params;
         const { title, body, publish } = req.body;
         const result = validationResult(req);
@@ -60,34 +61,34 @@ const updatePost = [
         else {
             res.status(400).json({ errors: result.array() });
         }
-    }
+    })
 ];
 
 const publishPost = [
     isAuthenticated,
-    async (req, res) => {
+    asyncHandler(async (req, res) => {
         const { postId } = req.params;
         await Post.findByIdAndUpdate(postId, { isPublished: true });
         res.json({ message: "Post published" });
-    }
+    })
 ];
 
 const unpublishPost = [
     isAuthenticated,
-    async (req, res) => {
+    asyncHandler(async (req, res) => {
         const { postId } = req.params;
         await Post.findByIdAndUpdate(postId, { isPublished: false });
         res.json({ message: "Post unpublished" });
-    }
+    })
 ];
 
 const deletePost = [
     isAuthenticated,
-    async (req, res) => {
+    asyncHandler(async (req, res) => {
         const { postId } = req.params;
         await Post.findByIdAndDelete(postId);
         res.json({ message: "Post was deleted" });
-    }
+    })
 ];
 
 module.exports = { getPosts, getPost, createPost, updatePost, publishPost, unpublishPost, deletePost };
