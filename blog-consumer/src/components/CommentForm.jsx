@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import { useParams } from "react-router-dom";
-import postComment from "../../api/postComment";
+import postComment from "../api/postComment";
 import "../styles/CommentForm.css";
 
 const CommentForm = ({ addComment }) => {

@@ -1,5 +1,5 @@
-import fetchPosts from "../../api/fetchPosts";
-import useApi from "../../hooks/useApi";
+import fetchPosts from "../api/fetchPosts";
+import useApi from "../hooks/useApi";
 import ErrorMessage from "./ErrorMessage";
 import Post from "./Post";
 import PostSkeleton from "./PostSkeleton";
@@ -17,9 +17,7 @@ const Posts = () => {
         )}
         {loading &&
           Array.from({ length: 10 }).map((_, idx) => (
-            <div className="post" key={idx}>
-              <PostSkeleton />
-            </div>
+            <PostSkeleton key={idx} />
           ))}
         {data && data.map((post) => <Post key={post._id} post={post} />)}
       </div>

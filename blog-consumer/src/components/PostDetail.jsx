@@ -5,6 +5,7 @@ import Comments from "./Comments";
 import formatDate from "../utils/formatDate";
 import PostDetailSkeleton from "./PostDetailSkeleton";
 import ErrorMessage from "./ErrorMessage";
+import HTML from "./HTML";
 
 const PostDetail = () => {
   const { postId } = useParams();
@@ -19,7 +20,7 @@ const PostDetail = () => {
           <>
             <h1>{data.title}</h1>
             <p className="meta-data">{formatDate(data.createdAt)}</p>
-            <p style={{ marginTop: 20 }}>{data.body}</p>
+            <HTML>{data.body}</HTML>
           </>
         )}
         {!error && (
