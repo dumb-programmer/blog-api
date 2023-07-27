@@ -1,16 +1,16 @@
 import PageNotFoundMessage from "./PageNotFoundMessage";
 import SomethingBrokeMessage from "./SomethingBrokeMessage";
+import TooManyRequestsMessage from "./TooManyRequestsMessage";
 
 const ErrorMessage = ({ error }) => {
-  return (
-    <div className="container">
-      {error.status === 404 ? (
-        <PageNotFoundMessage />
-      ) : (
-        <SomethingBrokeMessage />
-      )}
-    </div>
-  );
+  switch (error.status) {
+    case 404:
+      return <PageNotFoundMessage />;
+    case 429:
+      return <TooManyRequestsMessage />;
+    default:
+      return <SomethingBrokeMessage />;
+  }
 };
 
 export default ErrorMessage;

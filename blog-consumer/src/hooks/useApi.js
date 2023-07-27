@@ -20,6 +20,10 @@ const useApi = (fetchData) => {
                 setLoading(false);
                 setError({ status: 404, message: "Sorry couldn't find this resource" });
             }
+            else if (result.status === 429) {
+                setLoading(false);
+                setError({ status: 429, message: "Too many requests" });
+            }
             else {
                 setLoading(false);
                 setError({ message: "An unkown error has occurred" });
