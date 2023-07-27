@@ -3,6 +3,7 @@ const isAuthenticated = require("../middlewares/isAuthenticated");
 const Post = require("../models/post");
 const asyncHandler = require("../middlewares/asyncHandler");
 const verifyToken = require("../middlewares/verifyToken");
+const corsAdmin = require("../middlewares/corsAdmin");
 
 const getPosts = [
     asyncHandler(verifyToken),
@@ -26,7 +27,7 @@ const getPost = [
             return ({ ...prevVal, ...currentVal });
         }, {}) || null;
         const post = await Post.findById(postId, projection);
-        if (post && post.isPublished || req.user) {
+        if (post && (post.isPublished || req.user)) {
             res.json(post);
         }
         else {
@@ -37,9 +38,11 @@ const getPost = [
 
 const validatePost = [
     body("title").escape().notEmpty().withMessage("Title is required").isLength({ max: 100 }).withMessage("Title cannot be greater than 100 characters"),
+    body("publish").notEmpty().withMessage("Publish is required").isBoolean().withMessage("Publish must be a boolean"),
 ]
 
 const createPost = [
+    corsAdmin(),
     isAuthenticated,
     ...validatePost,
     asyncHandler(async (req, res) => {
@@ -56,6 +59,7 @@ const createPost = [
 ];
 
 const updatePost = [
+    corsAdmin(),
     isAuthenticated,
     ...validatePost,
     asyncHandler(async (req, res) => {
@@ -63,7 +67,7 @@ const updatePost = [
         const { title, body, publish } = req.body;
         const result = validationResult(req);
         if (result.isEmpty()) {
-            await Post.findByIdAndUpdate(postId, { title, body, isPublished: publish === "on" });
+            await Post.findByIdAndUpdate(postId, { title, body, isPublished: publish });
             res.json({ message: "Post was updated" });
         }
         else {
@@ -73,6 +77,7 @@ const updatePost = [
 ];
 
 const publishPost = [
+    corsAdmin(),
     isAuthenticated,
     asyncHandler(async (req, res) => {
         const { postId } = req.params;
@@ -82,6 +87,7 @@ const publishPost = [
 ];
 
 const unpublishPost = [
+    corsAdmin(),
     isAuthenticated,
     asyncHandler(async (req, res) => {
         const { postId } = req.params;
@@ -91,6 +97,7 @@ const unpublishPost = [
 ];
 
 const deletePost = [
+    corsAdmin(),
     isAuthenticated,
     asyncHandler(async (req, res) => {
         const { postId } = req.params;

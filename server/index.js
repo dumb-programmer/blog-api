@@ -5,7 +5,8 @@ const helmet = require("helmet");
 const compression = require("compression");
 const RateLimit = require("express-rate-limit");
 const mongoose = require("mongoose");
-const cors = require("cors");
+
+const corsClientOrAdmin = require("./middlewares/corsClientOrAdmin");
 
 (async () => {
     try {
@@ -19,14 +20,16 @@ const cors = require("cors");
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+app.use(corsClientOrAdmin());
+app.use(express.json({ limit: "800mb" }));
 app.use(helmet());
 app.use(compression());
-app.use(RateLimit({
-    windowMs: 1 * 60 * 1000, // 1 minute
-    max: 20,
-}));
+if (process.env.NODE_ENV === "production") {
+    app.use(RateLimit({
+        windowMs: 1 * 60 * 1000, // 1 minute
+        max: 20,
+    }));
+}
 
 const authRouter = require("./routes/authRouter");
 const postRouter = require("./routes/postRouter");
@@ -40,6 +43,9 @@ app.use((req, res, next) => {
 
 app.use((err, req, res, next) => {
     res.status(500).json({ message: "An error occurred" });
+    if (process.env.NODE_ENV === "development") {
+        console.error(err);
+    }
 });
 
 app.listen(process.env.PORT, () => console.log(`Server listening on port: ${process.env.PORT}`));

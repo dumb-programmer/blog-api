@@ -2,6 +2,7 @@ const { body, validationResult } = require("express-validator");
 const isAuthenticated = require("../middlewares/isAuthenticated");
 const Comment = require("../models/comment");
 const asyncHandler = require("../middlewares/asyncHandler");
+const corsAdmin = require("../middlewares/corsAdmin");
 
 const getComments = asyncHandler(async (req, res) => {
     const { postId } = req.params;
@@ -31,6 +32,7 @@ const createComment = [
 ]
 
 const deleteComment = [
+    corsAdmin(),
     isAuthenticated,
     asyncHandler(async (req, res) => {
         const { commentId } = req.params;
