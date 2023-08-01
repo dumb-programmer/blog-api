@@ -20,10 +20,10 @@ const corsClientOrAdmin = require("./middlewares/corsClientOrAdmin");
 
 const app = express();
 
-app.use(corsClientOrAdmin());
 app.use(express.json({ limit: "800mb" }));
 app.use(helmet());
 app.use(compression());
+app.use(corsClientOrAdmin());
 if (process.env.NODE_ENV === "production") {
     app.use(RateLimit({
         windowMs: 1 * 60 * 1000, // 1 minute
