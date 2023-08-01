@@ -60,7 +60,11 @@ const Login = () => {
 
   return (
     <main className="centered">
-      <form className="form" onSubmit={loading ? null : handleSubmit}>
+      <form
+        className="form"
+        style={{ maxWidth: 400 }}
+        onSubmit={loading ? null : handleSubmit}
+      >
         <h1>Login</h1>
         <div className="form-control">
           <label htmlFor="email">Email</label>

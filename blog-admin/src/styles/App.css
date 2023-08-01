@@ -17,6 +17,9 @@ main {
 }
 
 header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #fff;
     padding: 10px;
     box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.1);
@@ -25,4 +28,20 @@ header {
 .flex-end {
     display: flex;
     justify-content: flex-end;
+}
+
+a {
+    text-decoration: none !important;
+    color: blueviolet !important;
+}
+
+.content {
+    background-color: #fff;
+    width: clamp(200px, 60vw, 800px);
+    min-width: 350px;
+    padding: 20px 50px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    border-radius: 5px;
 }

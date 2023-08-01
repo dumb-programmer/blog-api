@@ -69,7 +69,7 @@ const PostForm = ({ title = "Create Post", post, onSubmit = createPost }) => {
             onChange={() =>
               setData({
                 ...data,
-                publish: !data.publish ? "on" : "off",
+                publish: !data.publish,
               })
             }
             defaultChecked={data?.publish}
