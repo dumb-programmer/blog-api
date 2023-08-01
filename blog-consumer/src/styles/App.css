@@ -81,7 +81,9 @@ pre {
 blockquote {
     position: relative;
     text-align: center;
-    padding: 40px 0;
+    padding: 80px 0;
+    position: relative;
+    top: 10px;
     font-style: italic;
 }
 
@@ -92,7 +94,7 @@ blockquote::before {
     display: inline-block;
     position: absolute;
     left: 0;
-    top: -10px;
+    top: -5px;
 }
 
 blockquote::after {
@@ -101,8 +103,8 @@ blockquote::after {
     font-size: 4rem;
     display: inline-block;
     position: absolute;
-    right: 10px;
-    bottom: -30px;
+    right: 0px;
+    bottom: -5px;
 }
 
 .post-container img {
@@ -111,6 +113,6 @@ blockquote::after {
     object-fit: contain;
 }
 
-.post-container p {
+.post-body {
     padding: 20px 0;
 }

@@ -20,7 +20,9 @@ const PostDetail = () => {
           <>
             <h1>{data.title}</h1>
             <p className="meta-data">{formatDate(data.createdAt)}</p>
-            <HTML>{data.body}</HTML>
+            <div className="post-body">
+              <HTML>{data.body}</HTML>
+            </div>
           </>
         )}
         {!error && (
