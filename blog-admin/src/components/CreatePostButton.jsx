@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import PlusIcon from "./icons/PlusIcon";
 
 const CreatePostButton = () => {
   return (
@@ -21,7 +22,7 @@ const CreatePostButton = () => {
         backgroundColor: "blueviolet",
       }}
     >
-      +
+      <PlusIcon size={22} color="white"/>
     </Link>
   );
 };

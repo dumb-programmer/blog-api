@@ -2,13 +2,12 @@ import { useEffect, useState } from "react";
 
 const useApi = (fetchData) => {
     const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
     useEffect(() => {
         let ignore = false;
         fetchData().then(response => {
-            setLoading(true);
             if (response.status === 200) {
                 response.json().then(jsonResponse => {
                     if (!ignore) {
